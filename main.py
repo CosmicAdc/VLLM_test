@@ -1,22 +1,17 @@
-from vllm import LLM, SamplingParams
+from langchain.llms import VLLM
 import time
 
 
-prompts = [
-    "Hello, my name is",
-    "The president of the United States is",
-    "The capital of France is",
-    "The future of AI is",
-]
-sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
+llm = VLLM(model="Meta-Llama-3-8B-Instruct",
+           trust_remote_code=True,  
+           max_new_tokens=50,
+           temperature=0.6
+)
 
 
-llm = LLM(model="Meta-Llama-3-8B-Instruct")
-
-outputs = llm.generate(prompts, sampling_params)
-
-# Print the outputs.
-for output in outputs:
-    prompt = output.prompt
-    generated_text = output.outputs[0].text
-    print(f"Prompt: {prompt!r}, Generated text: {generated_text!r}")
+start_time = time.time()
+output = llm("Who is president of US?")
+end_time = time.time()
+latency = end_time - start_time
+print(f"Latency: {latency} seconds")
+print("Generated text:", output)
