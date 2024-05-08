@@ -20,7 +20,7 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.post("/v1/generateText")
+@app.post("/prompt")
 async def generateText(request: Request) -> Response:
     request_dict = await request.json()
     prompt = request_dict.pop("prompt")
@@ -31,4 +31,4 @@ async def generateText(request: Request) -> Response:
     return JSONResponse(ret)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=5001)
+    uvicorn.run(app, host="0.0.0.0", port=80)
